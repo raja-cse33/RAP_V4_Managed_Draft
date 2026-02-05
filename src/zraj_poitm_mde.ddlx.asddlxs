@@ -1,0 +1,55 @@
+@Metadata.layer: #CORE
+@Search.searchable: true
+@UI.headerInfo: {
+    typeName: 'PO Item Detail',
+    typeNamePlural: 'PO Item Details',
+    title: {
+        type: #STANDARD,
+        label: 'PO Item Details',
+        value: 'Poitem'
+    }
+}
+annotate entity ZRAJ_C_PO_ITM with
+{
+  @UI.facet: [{
+      id: 'Poitem',
+      purpose: #STANDARD,
+      position: 20 ,
+      label: 'PO Item Details',
+      type: #IDENTIFICATION_REFERENCE
+  } ]
+
+  @Search.defaultSearchElement: true
+  @UI.lineItem: [{ position: 10 }, { label: 'PO Item UUID' }]
+  @UI.identification: [{ position: 10 },{ label: 'PO Item UUID' }]
+  PoitmUUID;
+  @UI.hidden: true
+  poUUID;
+  @UI.lineItem: [{ position: 20 }, { label: 'PO Item' }]
+  @UI.identification: [{ position: 20 },{ label: 'PO Item' }]
+  Poitem;
+  @UI.lineItem: [{ position: 30 }, { label: 'Material' }]
+  @UI.identification: [{ position: 30 },{ label: 'Material' }]
+  matnr;
+  @UI.lineItem: [{ position: 40 }, { label: 'Material Desc' }]
+  @UI.identification: [{ position: 40 },{ label: 'Material Desc' }]
+  Maktx;
+  @UI.lineItem: [{ position: 50 }, { label: 'PO Item Qty' }]
+  @UI.identification: [{ position: 50 },{ label: 'PO Item Qty' }]
+  Qty;
+  //  @UI.lineItem: [{ position: 60 }, { label: 'UOM' }]
+  //  @UI.identification: [{ position: 60 },{ label: 'UOM' }]
+  @UI.hidden: true
+  meins;
+  @UI.lineItem: [{ position: 70 }, { label: 'Item Price' }]
+  @UI.identification: [{ position: 70 },{ label: 'Item Price' }]
+  itemprice;
+  //  @UI.lineItem: [{ position: 80 }, { label: 'Currency Code' }]
+  //  @UI.identification: [{ position: 80 },{ label: 'Currency Code' }]
+  @UI.hidden: true
+  Currencycode;
+  @UI.identification: [{ position: 90 },{ label: 'Last Changed At' }]
+  Lastchangedat;
+  /* Associations */
+
+}

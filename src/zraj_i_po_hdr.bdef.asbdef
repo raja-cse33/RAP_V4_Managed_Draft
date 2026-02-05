@@ -1,0 +1,121 @@
+managed implementation in class zbp_raj_i_po_hdr1 unique;
+strict ( 2 );
+with draft;
+extensible
+{
+  with additional save;
+  with determinations on modify;
+  with determinations on save;
+  with validations on save;
+}
+
+define behavior for ZRAJ_I_PO_HDR //alias <alias_name>
+implementation in class zbp_raj_i_po_hdr unique
+persistent table zraj_po_head
+draft table zraj_po_d_head
+lock master total etag LastChangedAt
+authorization master ( instance, global )
+etag master LocalLastChangedAt
+extensible
+{
+  create ( precheck, authorization : global );
+  update ( precheck );
+  delete;
+
+  association _Poitem { create; with draft; }
+
+  field ( readonly ) ebeln, EbelnUuid;
+  field ( numbering : managed ) EbelnUuid;
+  field ( readonly ) LastChangedAt, LocalCreatedAt, LocalCreatedBy, LocalLastChangedAt,
+  TotalPrice, CurrencyCode, LocalLastChangedBy, BeginDate, OverallStatus;
+
+  //  Determinations
+  determination setDefaultBeginDate on modify { create; }
+  determination setPonumber on save { create; }
+
+  // Actions
+  action ( features : instance ) acceptPO result [1] $self;
+  action ( features : instance ) rejectPO result [1] $self;
+
+  // Validations
+
+  //validation validate_enddate on save { create; field EndDate; }
+
+  //Draft
+  draft action Edit;
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare extensible
+  {
+    //validation validate_enddate;
+  }
+
+  //  extensible
+  //  {
+  //    determination on modify;
+  //    validation on save;
+  //    action;
+  //  }
+
+  side effects
+  {
+    field EndDate affects messages;
+  }
+  mapping for zraj_po_head corresponding extensible
+    {
+      BeginDate          = begin_date;
+      CurrencyCode       = currency_code;
+      Description        = description;
+      Ebeln              = ebeln;
+      EbelnUuid          = ebeln_uuid;
+      EndDate            = end_date;
+      LastChangedAt      = last_changed_at;
+      LocalCreatedAt     = local_created_at;
+      LocalCreatedBy     = local_created_by;
+      LocalLastChangedAt = local_last_changed_at;
+      LocalLastChangedBy = local_last_changed_by;
+      OverallStatus      = overall_status;
+      Potype             = potype;
+      TotalPrice         = total_price;
+    }
+}
+
+define behavior for ZRAJ_I_PO_ITEM //alias <alias_name>
+implementation in class zbp_raj_i_po_itm unique
+persistent table zraj_po_item
+draft table zraj_po_d_item
+lock dependent by _Pohdr
+authorization master ( instance, global )
+etag master LocalLastChangedAt
+{
+  update;
+  delete;
+
+  association _Pohdr { with draft; }
+
+  field ( readonly ) POUuid, Ebelp, LocalLastChangedAt;
+  field ( numbering : managed, readonly ) EbelpUuid;
+
+  determination setPoItmno on modify { create; }
+
+  determination calculateTotalPrice on modify { create; field ItmPrice, Qty; }
+
+  side effects
+  {
+    field ItmPrice affects field _Pohdr.TotalPrice;
+  }
+  mapping for zraj_po_item
+    {
+      CurrencyCode       = currency_code;
+      Ebelp              = Ebelp;
+      EbelpUuid          = ebelp_uuid;
+      Maktx              = maktx;
+      ItmPrice           = itm_price;
+      LocalLastChangedAt = local_last_changed_at;
+      Matnr              = Matnr;
+      Meins              = Meins;
+      POUuid             = parent_uuid;
+      Qty                = Qty;
+    }
+}

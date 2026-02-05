@@ -1,0 +1,5 @@
+@EndUserText.label: 'Service defination for PO Details'
+define service ZRAJ_SRV_PO_DEF {
+  expose ZRAJ_C_PO_HDR;
+  expose ZRAJ_C_PO_ITM;
+}

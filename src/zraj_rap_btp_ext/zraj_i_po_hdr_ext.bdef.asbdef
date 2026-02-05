@@ -1,0 +1,10 @@
+extension implementation in class zbp_raj_i_po_hdr_ext unique;
+
+extend behavior for ZRAJ_I_PO_HDR
+{
+  validation zzvalidate_enddate on save { create; field EndDate; }
+  extend draft determine action Prepare
+  {
+    validation zzvalidate_enddate;
+  }
+}

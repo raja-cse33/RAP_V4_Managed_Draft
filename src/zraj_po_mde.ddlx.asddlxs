@@ -1,0 +1,85 @@
+@Metadata.layer: #CORE
+@Search.searchable: true
+@UI.headerInfo: {
+    typeName: 'PODetail',
+    typeNamePlural: 'PODetails',
+    title: {
+        type: #STANDARD,
+        label: 'PODetails',
+        value: 'PONumber'
+    }
+}
+
+@UI.presentationVariant: [{
+    visualizations: [{ type: #AS_LINEITEM }],
+    sortOrder: [{ by: 'PONumber', direction: #ASC }]
+}]
+
+annotate view ZRAJ_C_PO_HDR with
+{
+  @UI.facet: [{
+                      id: 'PONumber',
+                      purpose: #STANDARD,
+                      position: 10 ,
+                      label: 'PO Header Details',
+                      type: #IDENTIFICATION_REFERENCE
+  } ,
+                 { id:              'Poitem',
+                     purpose:         #STANDARD,
+                     type:            #LINEITEM_REFERENCE,
+                     label:           'PoItem',
+                     position:        20,
+                     targetElement:   '_Poitem'}]
+
+  @UI.lineItem: [
+      { position: 10, label: 'PO UUID' },
+      { type: #FOR_ACTION, dataAction: 'acceptPO', label: 'Accept PO' },
+      { type: #FOR_ACTION, dataAction: 'rejectPO', label: 'Reject PO' }
+    ]
+  @UI.identification: [
+    { position: 10, label: 'PO UUID' },
+    { type: #FOR_ACTION, dataAction: 'acceptPO', label: 'Accept PO' },
+    { type: #FOR_ACTION, dataAction: 'rejectPO', label: 'Reject PO' }
+  ]
+  POUUID;
+  @Search.defaultSearchElement: true
+  @UI.lineItem: [{ position: 20 }, { label: 'PO Number' }]
+  @UI.identification: [{ position: 20 },{ label: 'PO Number' }]
+  @UI.selectionField: [{ position: 10 }]
+  PONumber;
+  @UI.lineItem: [{ position: 30 }, { label: 'PO Type' }]
+  @UI.identification: [{ position: 30 },{ label: 'PO Type' }]
+  @UI.selectionField: [{ position: 20 }]
+  POType;
+  @UI.identification: [{ position: 40 } , {label: 'Begin date'} ]
+  @UI.selectionField: [{ position: 30 }]
+  BeginDate;
+  @UI.identification: [{ position: 50 },{ label: 'End date' }]
+  @UI.selectionField: [{ position: 40 }]
+  Enddate;
+  @UI.lineItem: [{ position: 40 }, { label: 'Total Amount' }]
+  @UI.identification: [{ position: 60 },{ label: 'Total Amount' }]
+  TotalAmount;
+  @UI.hidden: true
+  //  @UI.lineItem: [{ position: 50 }, { label: 'Currency Code' }]
+  //  @UI.identification: [{ position: 70 },{ label: 'Currency Code' }]
+  CurrencyCode;
+
+  @UI.lineItem: [{ position: 60 }, { label: 'PO Description' }]
+  @UI.identification: [{ position: 80 }, { label: 'PO Description' }]
+  PODesc;
+  @UI.identification: [{ position: 90 }]
+  @UI.lineItem: [{ position: 70 }, { label: 'PO Status' }]
+  @UI.selectionField: [{ position: 50 }]
+  FinalStatus;
+  @UI.identification: [{ position: 100 }]
+  LocalCreatedBy;
+  @UI.identification: [{ position: 110 }]
+  LocalCreatedAt;
+  @UI.identification: [{ position: 120 }]
+  LocalLastChangedBy;
+  @UI.identification: [{ position: 130 }]
+  LocalLastChangedAt;
+  @UI.identification: [{ position: 140 }]
+  LastChangedAt;
+}

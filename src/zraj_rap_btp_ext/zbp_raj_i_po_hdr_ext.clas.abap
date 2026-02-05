@@ -1,0 +1,5 @@
+CLASS zbp_raj_i_po_hdr_ext DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zraj_i_po_hdr.
+ENDCLASS.
+
+CLASS zbp_raj_i_po_hdr_ext IMPLEMENTATION.
+ENDCLASS.
