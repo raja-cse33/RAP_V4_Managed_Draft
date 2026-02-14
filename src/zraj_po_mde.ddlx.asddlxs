@@ -10,10 +10,65 @@
     }
 }
 
+@UI.selectionVariant: [{ qualifier: 'All', text: 'All' },
+                       { qualifier: 'Accepted', text: 'Accepted', filter: 'FinalStatus EQ "A" ' },
+                       { qualifier: 'Open', text: 'Open', filter: 'FinalStatus EQ "O" ' } ]
+
 @UI.presentationVariant: [{
-    visualizations: [{ type: #AS_LINEITEM }],
-    sortOrder: [{ by: 'PONumber', direction: #ASC }]
+    qualifier: 'PV_All',
+    text: 'All',
+    maxItems: 50,
+    sortOrder: [{
+        by: 'PONumber',
+        direction: #ASC
+    }],
+//    groupBy: [ '' ],
+    requestAtLeast: [ 'PONumber' ],
+    visualizations: [{
+        type: #AS_LINEITEM
+//        qualifier: '',
+//        element: ''
+    }],
+    selectionFieldsQualifier: 'All'
+},
+{
+    qualifier: 'PV_ACC',
+    text: 'Accepted',
+    maxItems: 100,
+    sortOrder: [{
+        by: 'PONumber',
+        direction: #ASC
+    }],
+//    groupBy: [ '' ],
+    requestAtLeast: [ 'PONumber' ],
+    visualizations: [{
+        type: #AS_LINEITEM,
+        qualifier: 'Accepted'
+//        element: ''
+    }],
+    selectionFieldsQualifier: 'Accepted'
 }]
+
+
+@UI.selectionPresentationVariant: [{
+    qualifier: 'SPV_All',
+//    id: '',
+    text: 'All',
+    selectionVariantQualifier: 'All',
+    presentationVariantQualifier: 'PV_All'
+},
+{
+    qualifier: 'SPV_ACC',
+//    id: '',
+    text: 'Accepted',
+    selectionVariantQualifier: 'Accepted',
+    presentationVariantQualifier: 'PV_ACC'
+}]
+
+//@UI.presentationVariant: [{
+//    visualizations: [{ type: #AS_LINEITEM }],
+//    sortOrder: [{ by: 'PONumber', direction: #ASC }]
+//}]
 
 annotate view ZRAJ_C_PO_HDR with
 {
@@ -32,7 +87,7 @@ annotate view ZRAJ_C_PO_HDR with
                      targetElement:   '_Poitem'}]
 
   @UI.lineItem: [
-      { position: 10, label: 'PO UUID' },
+      { position: 10, label: 'PO UUID' , qualifier: 'Accepted'},
       { type: #FOR_ACTION, dataAction: 'acceptPO', label: 'Accept PO' },
       { type: #FOR_ACTION, dataAction: 'rejectPO', label: 'Reject PO' }
     ]
@@ -43,7 +98,7 @@ annotate view ZRAJ_C_PO_HDR with
   ]
   POUUID;
   @Search.defaultSearchElement: true
-  @UI.lineItem: [{ position: 20 }, { label: 'PO Number' }]
+  @UI.lineItem: [{ position: 20 }, { label: 'PO Number' , qualifier: 'Accepted' }]
   @UI.identification: [{ position: 20 },{ label: 'PO Number' }]
   @UI.selectionField: [{ position: 10 }]
   PONumber;
