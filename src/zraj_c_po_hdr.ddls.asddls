@@ -15,18 +15,21 @@ define root view entity ZRAJ_C_PO_HDR
   provider contract transactional_query
   as projection on ZRAJ_I_PO_HDR
 {
-  key EbelnUuid     as POUUID,
-      Ebeln         as PONumber,
+  key EbelnUuid        as POUUID,
+      Ebeln            as PONumber,
       @Consumption.valueHelpDefinition: [{ entity: { name: 'Z_I_POType_VH', element: 'POType' } }]
       //      @ObjectModel.text.element: ['POTypeText']
-      Potype        as POType,
-      BeginDate     as BeginDate,
-      EndDate       as Enddate,
+      Potype           as POType,
+      BeginDate        as BeginDate,
+      EndDate          as Enddate,
       @Semantics.amount.currencyCode: 'CurrencyCode'
-      TotalPrice    as TotalAmount,
-      CurrencyCode  as CurrencyCode,
-      Description   as PODesc,
-      OverallStatus as FinalStatus,
+      TotalPrice       as TotalAmount,
+      CurrencyCode     as CurrencyCode,
+      Description      as PODesc,
+      @ObjectModel.text.element: [ 'OverallStatusText' ]
+      OverallStatus    as FinalStatus,
+      _StatusText.Text as OverallStatusText : localized,
+      OverallStatusCriticality,
       LocalCreatedBy,
       LocalCreatedAt,
       LocalLastChangedBy,

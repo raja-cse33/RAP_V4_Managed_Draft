@@ -64,20 +64,21 @@ extensible
   }
   mapping for zraj_po_head corresponding extensible
     {
-      BeginDate          = begin_date;
-      CurrencyCode       = currency_code;
-      Description        = description;
-      Ebeln              = ebeln;
-      EbelnUuid          = ebeln_uuid;
-      EndDate            = end_date;
-      LastChangedAt      = last_changed_at;
-      LocalCreatedAt     = local_created_at;
-      LocalCreatedBy     = local_created_by;
-      LocalLastChangedAt = local_last_changed_at;
-      LocalLastChangedBy = local_last_changed_by;
-      OverallStatus      = overall_status;
-      Potype             = potype;
-      TotalPrice         = total_price;
+      BeginDate                = begin_date;
+      CurrencyCode             = currency_code;
+      Description              = description;
+      Ebeln                    = ebeln;
+      EbelnUuid                = ebeln_uuid;
+      EndDate                  = end_date;
+      LastChangedAt            = last_changed_at;
+      LocalCreatedAt           = local_created_at;
+      LocalCreatedBy           = local_created_by;
+      LocalLastChangedAt       = local_last_changed_at;
+      LocalLastChangedBy       = local_last_changed_by;
+      OverallStatus            = overall_status;
+      Potype                   = potype;
+      TotalPrice               = total_price;
+//      OverallStatusCriticality =
     }
 }
 

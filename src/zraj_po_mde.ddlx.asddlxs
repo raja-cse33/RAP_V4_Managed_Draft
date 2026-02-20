@@ -3,12 +3,14 @@
 @UI.headerInfo: {
     typeName: 'PODetail',
     typeNamePlural: 'PODetails',
+    typeImageUrl: 'sap-icon://approvals',
     title: {
         type: #STANDARD,
         label: 'PODetails',
         value: 'PONumber'
     }
 }
+
 
 @UI.selectionVariant: [{ qualifier: 'All', text: 'All' },
                        { qualifier: 'Accepted', text: 'Accepted', filter: 'FinalStatus EQ "A" ' },
@@ -70,21 +72,19 @@
 //    sortOrder: [{ by: 'PONumber', direction: #ASC }]
 //}]
 
+@UI.lineItem: [{ criticality: 'OverallStatusCriticality' }]
 annotate view ZRAJ_C_PO_HDR with
 {
-  @UI.facet: [{
-                      id: 'PONumber',
-                      purpose: #STANDARD,
-                      position: 10 ,
-                      label: 'PO Header Details',
-                      type: #IDENTIFICATION_REFERENCE
-  } ,
-                 { id:              'Poitem',
-                     purpose:         #STANDARD,
-                     type:            #LINEITEM_REFERENCE,
-                     label:           'PoItem',
-                     position:        20,
-                     targetElement:   '_Poitem'}]
+
+  // Data point reference for Header
+  @UI.facet: [{ purpose: #HEADER, position: 10, type: #DATAPOINT_REFERENCE, targetQualifier: 'TotalAmount' },
+              { purpose: #HEADER, position: 20, type: #DATAPOINT_REFERENCE, targetQualifier: 'Overallstatus' },
+
+  //Identification and LineItem Reference
+              { id: 'PONumber', purpose: #STANDARD, position: 10, label: 'PO Header Details',
+              type: #IDENTIFICATION_REFERENCE } ,
+              { id: 'Poitem', purpose: #STANDARD, type: #LINEITEM_REFERENCE, label: 'PoItem', position: 20,
+                targetElement:   '_Poitem'}]
 
   @UI.lineItem: [
       { position: 10, label: 'PO UUID' , qualifier: 'Accepted'},
@@ -114,6 +114,7 @@ annotate view ZRAJ_C_PO_HDR with
   Enddate;
   @UI.lineItem: [{ position: 40 }, { label: 'Total Amount' }]
   @UI.identification: [{ position: 60 },{ label: 'Total Amount' }]
+  @UI.dataPoint: { qualifier: 'TotalAmount' , title: 'TotalAmount' }
   TotalAmount;
   @UI.hidden: true
   //  @UI.lineItem: [{ position: 50 }, { label: 'Currency Code' }]
@@ -123,9 +124,11 @@ annotate view ZRAJ_C_PO_HDR with
   @UI.lineItem: [{ position: 60 }, { label: 'PO Description' }]
   @UI.identification: [{ position: 80 }, { label: 'PO Description' }]
   PODesc;
-  @UI.identification: [{ position: 90 }]
-  @UI.lineItem: [{ position: 70 }, { label: 'PO Status' }]
+  @UI.identification: [{ position: 90 ,criticality: 'OverallStatusCriticality' }]
+  @UI.lineItem: [{ position: 70 , criticality: 'OverallStatusCriticality'}]
+  @UI.dataPoint: { qualifier: 'Overallstatus' , title: 'Overallstatus' , criticality: 'OverallStatusCriticality'}
   @UI.selectionField: [{ position: 50 }]
+  @UI.textArrangement: #TEXT_ONLY
   FinalStatus;
   @UI.identification: [{ position: 100 }]
   LocalCreatedBy;

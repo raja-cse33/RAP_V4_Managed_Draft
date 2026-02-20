@@ -12,7 +12,9 @@
 }
 define root view entity ZRAJ_I_PO_HDR
   as select from zraj_po_head
-  composition [1..*] of ZRAJ_I_PO_ITEM as _Poitem
+  composition [1..*] of ZRAJ_I_PO_ITEM                as _Poitem
+  association [0..*] to /DMO/I_Overall_Status_VH_Text as _StatusText on $projection.OverallStatus = _StatusText.OverallStatus
+
 
 {
   key ebeln_uuid            as EbelnUuid,
@@ -32,6 +34,13 @@ define root view entity ZRAJ_I_PO_HDR
       currency_code         as CurrencyCode,
       description           as Description,
       overall_status        as OverallStatus,
+      // Logic for Criticality (Integer 0-3)
+      case overall_status
+        when 'X' then 1 -- Red (Aborted/Rejected)
+        when 'O' then 2 -- Orange (Open/Pending)
+        when 'A' then 3 -- Green (Accepted/Approved)
+        else 0          -- Neutral (Grey)
+      end                   as OverallStatusCriticality,
       @Semantics.user.createdBy: true
       local_created_by      as LocalCreatedBy,
       @Semantics.systemDateTime.createdAt: true
@@ -43,5 +52,6 @@ define root view entity ZRAJ_I_PO_HDR
       @Semantics.systemDateTime.lastChangedAt: true
       last_changed_at       as LastChangedAt,
       //    _association_name // Make association public
-      _Poitem
+      _Poitem,
+      _StatusText
 }
